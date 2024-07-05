@@ -1,20 +1,53 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Recetas</ion-title>
   </ion-toolbar>
 </ion-header>
+<div class="header">
+  <div >
+    <div  class="end-align">
+        <ion-button shape="round" slot="icon-only"(click)="add()" color="primary" class="button-add">
+           <!-- <ion-icon slot="icon-only" name="add-outline"></ion-icon>-->+
+        </ion-button>
+    </div>
+</div>
+<div class="center">
+   
+    
+    <div class="content">
+        <mat-table #table class="table" [dataSource]="dataSource">           
+        
+            <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let item"> {{item.name}} </mat-cell>
+            </ng-container>
+        
+            <ng-container matColumnDef="actions">
+                <mat-header-cell mat-header-cell *matHeaderCellDef> actions </mat-header-cell>
+                <mat-cell mat-cell *matCellDef="let item"> 
+                    <button mat-icon-button class="button-icon" (click)="edit(item)" color="primary">
+                        <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+                    </button>
+                  <button mat-icon-button class="button-icon" (click)="delete(item)" style="color: red;">
+                    <ion-icon slot="icon-only" name="trash-outline" style="color: red;"></ion-icon>
+                </button>
+                </mat-cell>
+            </ng-container>
+            
+           
+        
+            <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+            <mat-row *matRowDef="let item; columns: displayedColumns;"
+            [class.user-pointer]="false" matRipple>
+            </mat-row>
+        
+        
+        
+         </mat-table>
+    </div>
+</div>
+</div>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
-</ion-content>
