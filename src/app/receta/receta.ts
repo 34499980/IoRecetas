@@ -5,7 +5,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { Router } from '@angular/router';
 import { IonicModule, IonIcon } from '@ionic/angular';
 import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
 import { Subject } from 'rxjs';
@@ -14,9 +13,9 @@ import { Receta } from '../models/receta.model';
 import { RecetasService } from '../services/recetas.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: 'app-receta',
+  templateUrl: 'receta.html',
+  styleUrls: ['receta.scss'],
   standalone: true,
   imports: [MatListModule,
     NgFor,
@@ -28,14 +27,14 @@ import { RecetasService } from '../services/recetas.service';
         IonicModule
         ],
 })
-export class HomePage implements OnInit { 
+export class RecetaComponent implements OnInit { 
   recetaService = inject(RecetasService); 
-  router = inject(Router);
   dataTable$: Subject<Receta[]> = new Subject();
   list: Receta[] = [];
   dataSource = new MatTableDataSource<Receta>();
   displayedColumns: string[] = ['name', 'actions'];
   nameList: Item[] = [];
+  title: string = '';
 
   ngOnInit(): void {
    this.recetaService.getAll().subscribe(res => {
@@ -50,7 +49,7 @@ export class HomePage implements OnInit {
    });
   }
   add(){
-    this.router.navigate(['receta'])
+
   }
   delete(row: Item){
 
@@ -59,7 +58,3 @@ export class HomePage implements OnInit {
 
   }
 }
-function Route(Route: any) {
-  throw new Error('Function not implemented.');
-}
-
