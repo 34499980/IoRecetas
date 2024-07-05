@@ -3,51 +3,58 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
+   
     <ion-title>{{title}}</ion-title>
   </ion-toolbar>
 </ion-header>
 <div class="header">
   <div >
     <div  class="end-align">
-        <ion-button shape="round" slot="icon-only"(click)="add()" color="primary" class="button-add">
-           <!-- <ion-icon slot="icon-only" name="add-outline"></ion-icon>-->+
-        </ion-button>
+     
     </div>
 </div>
 <div class="center">
    
     
     <div class="content">
-        <mat-table #table class="table" [dataSource]="dataSource">           
-        
-            <ng-container matColumnDef="name">
-            <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
-            <mat-cell mat-cell *matCellDef="let item"> {{item.name}} </mat-cell>
-            </ng-container>
-        
-            <ng-container matColumnDef="actions">
-                <mat-header-cell mat-header-cell *matHeaderCellDef> actions </mat-header-cell>
-                <mat-cell mat-cell *matCellDef="let item"> 
-                    <button mat-icon-button class="button-icon" (click)="edit(item)" color="primary">
-                        <ion-icon slot="icon-only" name="create-outline"></ion-icon>
-                    </button>
-                  <button mat-icon-button class="button-icon" (click)="delete(item)" style="color: red;">
-                    <ion-icon slot="icon-only" name="trash-outline" style="color: red;"></ion-icon>
-                </button>
-                </mat-cell>
-            </ng-container>
-            
+      <ng-container [formGroup]="formGroup">        
+        <mat-form-field class="inputWidthName">
+          <mat-label>Nombre
+          </mat-label>
+          <input  matInput formControlName="name">
+        </mat-form-field>
+        <mat-form-field class="inputWidthCount" >
+          <mat-label>Cant
+          </mat-label>
+          <input matInput formControlName="count">
+        </mat-form-field>     
+     
+      </ng-container>
+      <ion-button style="background-color: khaki;margin-bottom: 30px;"color="dark" (click)="addItem()">+</ion-button>
+      <ion-grid>
+        <ion-row  aria-colspan="3" *ngFor="let row of  this.ingredientes; let i = index"> 
+            <ion-col aria-colspan="3" >             
+                            
+               <label>{{row.nombre}}: {{row.cant}}</label>
+            </ion-col> 
            
-        
-            <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
-            <mat-row *matRowDef="let item; columns: displayedColumns;"
-            [class.user-pointer]="false" matRipple>
-            </mat-row>
-        
-        
-        
-         </mat-table>
+            <ion-col style="align-items: center; text-align: center">
+               <ion-button shape="round" color="danger" size="small" (click)='removeItem(i)'>X</ion-button>
+              
+            
+               </ion-col>
+ 
+        </ion-row>
+      </ion-grid>
+      <ion-textarea  label="Descripcion" labelPlacement="floating" fill="solid"></ion-textarea>
+
     </div>
+    <div class="right">
+      <ion-button color="danger">Cancelar</ion-button>
+      <ion-button>Aceptar</ion-button>
+     
+    </div>
+  
 </div>
 </div>
 

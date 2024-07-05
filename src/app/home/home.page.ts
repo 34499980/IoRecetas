@@ -50,7 +50,7 @@ export class HomePage implements OnInit {
    });
   }
   add(){
-    this.router.navigate(['receta'])
+    this.router.navigate(['receta', {title: 'Nueva receta'}])
   }
   delete(row: Item){
 
@@ -59,7 +59,5 @@ export class HomePage implements OnInit {
 
   }
 }
-function Route(Route: any) {
-  throw new Error('Function not implemented.');
-}
+
 
