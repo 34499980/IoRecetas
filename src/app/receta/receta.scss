@@ -80,11 +80,14 @@ label{
   right: 0px;
   padding: 10px;
 }
-ion-textarea{
+ion-textarea, native-textarea sc-ion-textarea-md{
   margin-top: 10px;
   margin-bottom: 10px;
   margin-left: 5px;
   margin-right: 5px;
   width: 95%;
+  height: 200px;
+}
+textarea-wrapper-inner sc-ion-textarea-md{
   height: 200px;
 }
