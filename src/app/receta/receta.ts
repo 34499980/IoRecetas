@@ -71,6 +71,7 @@ export class RecetaComponent implements OnInit {
   }
 
   }
+
   addItem(){
     if(this.formGroup.valid){
     const input: Ingrediente = {

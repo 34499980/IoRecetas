@@ -3,12 +3,13 @@ import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+
 import { MatListModule } from '@angular/material/list';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { IonicModule, IonIcon } from '@ionic/angular';
 import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
-import { Subject } from 'rxjs';
+import { Subject, switchMap } from 'rxjs';
 import { DialogConfirm } from '../dialogs/confirm/dialog-confirm';
 import { Item } from '../models/item.model';
 import { Receta } from '../models/receta.model';
@@ -41,23 +42,33 @@ export class HomePage implements OnInit {
   nameList: Item[] = [];
 
   ngOnInit(): void {
-   this.recetaService.getAll().subscribe(res => {
-    this.list = res;
-    res.forEach(element => {
-      const item: Item ={
-        key : element.key,
-        nombre: element.nombre 
-      }
-      this.nameList.push(item);
+    this.dataTable$.pipe(
+       switchMap(() =>{ 
+     
+      return   this.recetaService.getAll()
+    }))
+  .subscribe(res => {
+    this.list = res as Receta[];
+      res.forEach(element => {
+        const item: Item ={
+          key : element.key,
+          nombre: element.nombre 
+        }
+        this.nameList.push(item);
+      });
+      this.dataSource.data = this.list;
     });
-    this.dataSource.data = this.list;
-   });
    this.loadData();
+  }
+  ionViewWillEnter(){
+    this.loadData();
   }
   add(){
     this.router.navigate(['receta', {title: 'Nueva receta'}])
   }
   loadData(){
+    this.nameList = [];
+    this.dataSource.data = [];
     this.dataTable$.next([]);
   }
   delete(row: Receta){
