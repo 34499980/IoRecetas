@@ -1,6 +1,6 @@
 {
     "/api": {
-      "target": "https://gastos-api-2-git-main-34499980s-projects.vercel.app",
+      "target": "https://recetas-api-git-main-34499980s-projects.vercel.app/",
       "secure": false
     }
   }

@@ -9,9 +9,9 @@ import * as packageJson from '../../../package.json';
   })
   export class ConfigsLoaderService {
     private httpClient: HttpClient;
-    prod: string = 'https://recetas-api-iota.vercel.app/api';    
+    prod: string = 'https://recetas-api-git-main-34499980s-projects.vercel.app/api';    
     dev: string = 'http://localhost:8080/api';
-    uiURL: string = 'https://io-gastos-git-master-34499980s-projects.vercel.app';
+    uiURL: string = 'https://recetas-api-git-main-34499980s-projects.vercel.app';
     private config: Configs = {
       apiUrl: `${this.prod}`,
       uiUrl: `${this.uiURL}`
