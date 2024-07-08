@@ -60,7 +60,7 @@ export class HomePage implements OnInit {
     this.formGroup.controls.search.valueChanges.subscribe(val => {
       if(val != '' && val != null && val != undefined){ 
         this.nameList = [];
-        const searList = this.list.filter(x => x.nombre.includes(val))       
+        const searList = this.list.filter(x => x.nombre.toLowerCase().includes(val.toLowerCase()))       
         this.dataSource.data = searList;
       } else {
         this.dataSource.data = this.list;
