@@ -13,7 +13,7 @@ import * as packageJson from '../../../package.json';
     dev: string = 'http://localhost:8080/api';
     uiURL: string = 'https://io-gastos-git-master-34499980s-projects.vercel.app';
     private config: Configs = {
-      apiUrl: `${this.dev}`,
+      apiUrl: `${this.prod}`,
       uiUrl: `${this.uiURL}`
     };
     get packageJson() {return packageJson}
