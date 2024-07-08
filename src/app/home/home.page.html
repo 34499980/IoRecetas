@@ -9,6 +9,15 @@
 <div class="header">
   <div >
     <div  class="end-align">
+      <ng-container [formGroup]="formGroup">        
+        <mat-form-field class="inputWidthName">
+          <mat-label>Nombre
+          </mat-label>
+          <input  matInput formControlName="search">
+        </mat-form-field>
+      
+     
+      </ng-container>
         <ion-button shape="round" slot="icon-only"(click)="add()" color="primary" class="button-add">
           <ion-icon slot="icon-only" name="add-outline"></ion-icon>
         </ion-button>

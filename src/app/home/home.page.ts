@@ -1,8 +1,11 @@
-import { NgFor, NgIf } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 
 import { MatListModule } from '@angular/material/list';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -28,20 +31,42 @@ import { RecetasService } from '../services/recetas.service';
       MatTableModule,
        MatIconModule,
         MatDialogModule,
-        IonicModule
+        IonicModule,    
+          
+         
+         
+            
+            MatFormFieldModule,
+            CommonModule,
+            FormsModule,
+            ReactiveFormsModule,
+            MatInputModule
         ],
 })
 export class HomePage implements OnInit { 
   recetaService = inject(RecetasService); 
   router = inject(Router);
+  formBuild = inject(FormBuilder);
   public dialogService = inject(MatDialog);
   dataTable$: Subject<Receta[]> = new Subject();
   list: Receta[] = [];
   dataSource = new MatTableDataSource<Receta>();
   displayedColumns: string[] = ['name', 'actions'];
   nameList: Item[] = [];
-
+  formGroup = new FormBuilder().group({   
+    search: ['']
+   });
   ngOnInit(): void {
+    this.formGroup.controls.search.valueChanges.subscribe(val => {
+      if(val != '' && val != null && val != undefined){ 
+        this.nameList = [];
+        const searList = this.list.filter(x => x.nombre.includes(val))       
+        this.dataSource.data = searList;
+      } else {
+        this.dataSource.data = this.list;
+      }
+    }
+    );
     this.dataTable$.pipe(
        switchMap(() =>{ 
      
