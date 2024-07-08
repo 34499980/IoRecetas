@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { BrowserModule } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule, IonIcon } from '@ionic/angular';
 import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
 import { Subject } from 'rxjs';
@@ -41,6 +41,7 @@ export class RecetaComponent implements OnInit {
   recetaService = inject(RecetasService); 
   activatedRoute = inject(ActivatedRoute);
   formBuild = inject(FormBuilder);
+  router = inject(Router);
   dataTable$: Subject<Receta[]> = new Subject();
   list: Receta[] = [];
   dataSource = new MatTableDataSource<Receta>();
@@ -53,11 +54,22 @@ export class RecetaComponent implements OnInit {
     name: ['', Validators.required],
     count: ['', Validators.required]
    });
+   description: string;
+   receta: Receta;
+   flagNew: boolean = false;
 
   ngOnInit(): void {
     
-  this.title = this.activatedRoute.snapshot.paramMap.get('title') as string;
- 
+  this.title = this.activatedRoute.snapshot.paramMap.get('title') as string;  
+  const receta = this.activatedRoute.snapshot.paramMap.get('receta') as string;
+  if(receta != '' && receta != null){
+    this.receta = JSON.parse(receta);
+    this.description = this.receta.descripcion;
+    this.ingredientes = this.receta.ingredientes;
+    this.title = this.receta.nombre;
+    this.flagNew = true;
+  }
+
   }
   addItem(){
     if(this.formGroup.valid){
@@ -72,10 +84,34 @@ export class RecetaComponent implements OnInit {
   delete(row: Item){
 
   }
-  edit(row: Item){
+  edit(){
+    this.receta.descripcion = this.description;
+    this.receta.nombre = this.title;
+    this.receta.ingredientes = this.ingredientes;
+    this.recetaService.edit(this.receta).subscribe(res => {
+      this.router.navigate(['home']);
+    });
 
   }
   removeItem(i: number){
     this.ingredientes.splice(i,1);  
+  }
+  add(){
+    if(this.description != '' && this.description != null && this.description != undefined){
+       if(!this.flagNew){
+        const receta: Receta = {
+          descripcion: this.description,
+          ingredientes: this.ingredientes,
+          key: '',
+          nombre: this.title
+        }
+        this.recetaService.add(receta).subscribe(res =>  this.router.navigate(['home']));
+       } else {
+        this.edit();
+       }
+    }
+  }
+  cancel(){
+     this.router.navigate(['home']);
   }
 }

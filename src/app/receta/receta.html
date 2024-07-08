@@ -4,7 +4,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
    
-    <ion-title>{{title}}</ion-title>
+    <ion-input  [(ngModel)]="title"></ion-input>
   </ion-toolbar>
 </ion-header>
 <div class="header">
@@ -46,12 +46,12 @@
  
         </ion-row>
       </ion-grid>
-      <ion-textarea  label="Descripcion" labelPlacement="floating" fill="solid"></ion-textarea>
+      <ion-textarea [(ngModel)]="description"  label="Descripcion" labelPlacement="floating" fill="solid"></ion-textarea>
 
     </div>
     <div class="right">
-      <ion-button color="danger">Cancelar</ion-button>
-      <ion-button>Aceptar</ion-button>
+      <ion-button (click)="cancel()" color="danger">Cancelar</ion-button>
+      <ion-button (click)="add()">Aceptar</ion-button>
      
     </div>
   

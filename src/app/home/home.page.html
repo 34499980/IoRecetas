@@ -10,7 +10,7 @@
   <div >
     <div  class="end-align">
         <ion-button shape="round" slot="icon-only"(click)="add()" color="primary" class="button-add">
-           <!-- <ion-icon slot="icon-only" name="add-outline"></ion-icon>-->+
+          <ion-icon slot="icon-only" name="add-outline"></ion-icon>
         </ion-button>
     </div>
 </div>
@@ -22,17 +22,17 @@
         
             <ng-container matColumnDef="name">
             <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
-            <mat-cell mat-cell *matCellDef="let item"> {{item.name}} </mat-cell>
+            <mat-cell mat-cell *matCellDef="let item"> {{item.nombre}} </mat-cell>
             </ng-container>
         
             <ng-container matColumnDef="actions">
                 <mat-header-cell mat-header-cell *matHeaderCellDef> actions </mat-header-cell>
                 <mat-cell mat-cell *matCellDef="let item"> 
                     <button mat-icon-button class="button-icon" (click)="edit(item)" color="primary">
-                        <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+                        <ion-icon slot="icon-only" name="create-outline"></ion-icon>                     
                     </button>
                   <button mat-icon-button class="button-icon" (click)="delete(item)" style="color: red;">
-                    <ion-icon slot="icon-only" name="trash-outline" style="color: red;"></ion-icon>
+                      <ion-icon slot="icon-only" name="trash-outline" style="color: red;"></ion-icon>
                 </button>
                 </mat-cell>
             </ng-container>

@@ -1,7 +1,7 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -9,9 +9,11 @@ import { Router } from '@angular/router';
 import { IonicModule, IonIcon } from '@ionic/angular';
 import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
 import { Subject } from 'rxjs';
+import { DialogConfirm } from '../dialogs/confirm/dialog-confirm';
 import { Item } from '../models/item.model';
 import { Receta } from '../models/receta.model';
 import { RecetasService } from '../services/recetas.service';
+
 
 @Component({
   selector: 'app-home',
@@ -31,6 +33,7 @@ import { RecetasService } from '../services/recetas.service';
 export class HomePage implements OnInit { 
   recetaService = inject(RecetasService); 
   router = inject(Router);
+  public dialogService = inject(MatDialog);
   dataTable$: Subject<Receta[]> = new Subject();
   list: Receta[] = [];
   dataSource = new MatTableDataSource<Receta>();
@@ -43,20 +46,40 @@ export class HomePage implements OnInit {
     res.forEach(element => {
       const item: Item ={
         key : element.key,
-        name: element.nombre 
+        nombre: element.nombre 
       }
       this.nameList.push(item);
     });
+    this.dataSource.data = this.list;
    });
+   this.loadData();
   }
   add(){
     this.router.navigate(['receta', {title: 'Nueva receta'}])
   }
-  delete(row: Item){
+  loadData(){
+    this.dataTable$.next([]);
+  }
+  delete(row: Receta){
+    const dialogRef = this.dialogService.open(DialogConfirm, {
+      data: {name: row.nombre, object: "receta"},
+      
+      disableClose: true
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+     if(result){
+      this.recetaService.delete(row.key).subscribe({
+        next: res => {
+          this.loadData()
+        } 
+      })      
+     }
+    });
   }
   edit(row: Item){
-
+    const receta = this.list.find(x => x.key == row.key);
+    this.router.navigate(['receta', {title: receta?.nombre, receta: JSON.stringify(receta)}])
   }
 }
 

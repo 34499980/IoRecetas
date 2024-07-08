@@ -1,7 +1,8 @@
 {
-  "name": "Recetario",
+  "name": "Recetas",
   "integrations": {
+    "cordova": {},
     "capacitor": {}
   },
-  "type": "angular-standalone"
+  "type": "angular"
 }
