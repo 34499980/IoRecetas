@@ -52,14 +52,14 @@ export class HomePage implements OnInit {
   list: Receta[] = [];
   dataSource = new MatTableDataSource<Receta>();
   displayedColumns: string[] = ['name', 'actions'];
-  nameList: Item[] = [];
+ 
   formGroup = new FormBuilder().group({   
     search: ['']
    });
   ngOnInit(): void {
     this.formGroup.controls.search.valueChanges.subscribe(val => {
       if(val != '' && val != null && val != undefined){ 
-        this.nameList = [];
+       
         const searList = this.list.filter(x => x.nombre.toLowerCase().includes(val.toLowerCase()))       
         this.dataSource.data = searList;
       } else {
@@ -74,13 +74,7 @@ export class HomePage implements OnInit {
     }))
   .subscribe(res => {
     this.list = res as Receta[];
-      res.forEach(element => {
-        const item: Item ={
-          key : element.key,
-          nombre: element.nombre 
-        }
-        this.nameList.push(item);
-      });
+   
       this.dataSource.data = this.list;
     });
    this.loadData();
@@ -92,7 +86,6 @@ export class HomePage implements OnInit {
     this.router.navigate(['receta', {title: 'Nueva receta'}])
   }
   loadData(){
-    this.nameList = [];
     this.dataSource.data = [];
     this.dataTable$.next([]);
   }
@@ -113,9 +106,8 @@ export class HomePage implements OnInit {
      }
     });
   }
-  edit(row: Item){
-    const receta = this.list.find(x => x.key == row.key);
-    this.router.navigate(['receta', {title: receta?.nombre, receta: JSON.stringify(receta)}])
+  edit(row: Receta){
+    this.router.navigate(['receta', {title: row?.nombre, receta: JSON.stringify(row)}])
   }
 }
 
